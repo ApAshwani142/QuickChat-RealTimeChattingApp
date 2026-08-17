@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import dns from 'dns'
 
 let transporter = null
 
@@ -17,6 +18,13 @@ async function getTransporter() {
       port: parseInt(port),
       secure: port == 465,
       auth: { user, pass },
+      lookup: (hostname, options, callback) => {
+        if (typeof options === 'function') {
+          callback = options
+          options = {}
+        }
+        dns.lookup(hostname, { ...options, family: 4 }, callback)
+      }
     })
   } else {
     console.log('No SMTP config found in environment variables. Setting up Ethereal Mail...')
