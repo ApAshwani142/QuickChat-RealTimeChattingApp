@@ -79,7 +79,7 @@ export default function SettingsPanel({ currentUser, onProfileUpdate, onToast })
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-950 w-[320px] shrink-0 border-r border-slate-200 dark:border-slate-800 animate-fade-in">
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-950 w-full md:w-[320px] shrink-0 border-r border-slate-200 dark:border-slate-800 animate-fade-in">
       <div className="px-4 py-4 border-b border-slate-100 dark:border-slate-900">
         <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">Settings & Account</h2>
       </div>

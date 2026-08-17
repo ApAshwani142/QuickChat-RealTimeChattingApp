@@ -326,8 +326,15 @@ async function verifyMfaLogin(req, res) {
     }
 
     // Check TOTP code or backup codes
-    const verifyResult = await verify({ token: code, secret: user.mfaSecret })
-    let isValid = verifyResult?.valid || false
+    let isValid = false
+    try {
+      if (/^\d{6}$/.test(code)) {
+        const verifyResult = await verify({ token: code, secret: user.mfaSecret })
+        isValid = verifyResult?.valid || false
+      }
+    } catch (err) {
+      console.warn('TOTP verification warning:', err.message)
+    }
     let isBackupUsed = false
 
     if (!isValid && user.mfaBackupCodes && user.mfaBackupCodes.length > 0) {
@@ -414,8 +421,15 @@ async function enableMfa(req, res) {
       return res.status(400).json({ error: 'MFA setup has not been initiated' })
     }
 
-    const verifyResult = await verify({ token: code, secret: user.mfaTempSecret })
-    const isValid = verifyResult?.valid || false
+    let isValid = false
+    try {
+      if (/^\d{6}$/.test(code)) {
+        const verifyResult = await verify({ token: code, secret: user.mfaTempSecret })
+        isValid = verifyResult?.valid || false
+      }
+    } catch (err) {
+      console.warn('TOTP enabling verify warning:', err.message)
+    }
     if (!isValid) {
       return res.status(400).json({ error: 'Invalid verification code' })
     }
@@ -468,8 +482,15 @@ async function disableMfa(req, res) {
     }
 
     // Check OTP code or backup code
-    const verifyResult = await verify({ token: code, secret: user.mfaSecret })
-    let isValid = verifyResult?.valid || false
+    let isValid = false
+    try {
+      if (/^\d{6}$/.test(code)) {
+        const verifyResult = await verify({ token: code, secret: user.mfaSecret })
+        isValid = verifyResult?.valid || false
+      }
+    } catch (err) {
+      console.warn('TOTP disable verify warning:', err.message)
+    }
     if (!isValid && user.mfaBackupCodes) {
       for (let i = 0; i < user.mfaBackupCodes.length; i++) {
         const match = await bcrypt.compare(code, user.mfaBackupCodes[i])

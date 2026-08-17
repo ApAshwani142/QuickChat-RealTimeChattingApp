@@ -5,7 +5,7 @@ export default function ContactDetailDrawer({ isOpen, onClose, contact }) {
   if (!isOpen || !contact) return null
 
   return (
-    <aside className="w-[300px] shrink-0 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col h-screen animate-fade-in shadow-lg">
+    <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-[320px] md:relative shrink-0 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col h-screen animate-fade-in shadow-lg">
       <div className="flex items-center justify-between px-4 py-4 border-b border-slate-100 dark:border-slate-900">
         <h3 className="text-sm font-semibold text-slate-850 dark:text-slate-200">Contact info</h3>
         <button onClick={onClose} className="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-350 cursor-pointer">

@@ -23,7 +23,7 @@ export default function ChatSidebar({
   }, [query, users])
 
   return (
-    <aside className="w-[320px] shrink-0 border-l border-r border-slate-200/70 bg-white/70 dark:bg-slate-950/70 dark:border-slate-800/70 backdrop-blur flex flex-col h-screen">
+    <aside className="w-full md:w-[320px] shrink-0 border-l border-r border-slate-200/70 bg-white/70 dark:bg-slate-950/70 dark:border-slate-800/70 backdrop-blur flex flex-col h-screen">
       <div className="flex flex-col gap-1.5 p-4 border-b border-slate-100 dark:border-slate-900">
         <h2 className="text-lg font-bold text-slate-900 dark:text-slate-105 select-none">Chats</h2>
         <div className="text-2xs text-slate-400 select-none">

@@ -96,7 +96,20 @@ export default function ChatPage() {
     s.on('user_online', handleUserOnline)
     s.on('user_offline', handleUserOffline)
 
+    // Handle bfcache to prevent WebSocket errors when page is suspended/restored
+    const handlePageHide = () => {
+      if (s) s.disconnect()
+    }
+    const handlePageShow = (e) => {
+      if (e.persisted && s && !s.connected) s.connect()
+    }
+
+    window.addEventListener('pagehide', handlePageHide)
+    window.addEventListener('pageshow', handlePageShow)
+
     return () => {
+      window.removeEventListener('pagehide', handlePageHide)
+      window.removeEventListener('pageshow', handlePageShow)
       s.off('connect_error')
       s.off('user_online', handleUserOnline)
       s.off('user_offline', handleUserOffline)
@@ -225,12 +238,22 @@ export default function ChatPage() {
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 overflow-hidden select-none">
       <Toast message={toast.message} type={toast.type} onClose={() => showToast('')} />
-      <LeftNavBar activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout} currentUser={currentUser} />
-      {activeTab === 'chats' && <ChatSidebar currentUser={currentUser} users={usersForSidebar} selectedUserId={selectedUserId} onSelectUser={setSelectedUserId} onLogout={handleLogout} />}
-      {activeTab === 'contacts' && <ContactsSidebar onlineIds={onlineIds} onStartChat={(id) => { setSelectedUserId(id); setActiveTab('chats') }} onToast={showToast} />}
-      {activeTab === 'settings' && <SettingsPanel currentUser={currentUser} onProfileUpdate={(upd) => { setCurrentUser(prev => ({ ...prev, ...upd })); fetchContacts() }} onToast={showToast} />}
-      <div className="flex flex-1 flex-col min-w-0">
-        <ChatHeader selectedUser={selectedUser} chatLoading={chatLoading} onClick={() => setDetailOpen(!detailOpen)} />
+      
+      {/* Left Navigation Bar (hidden on mobile if chat detail is open) */}
+      <div className={selectedUserId ? 'hidden md:block shrink-0' : 'block shrink-0'}>
+        <LeftNavBar activeTab={activeTab} setActiveTab={setActiveTab} onLogout={handleLogout} currentUser={currentUser} />
+      </div>
+
+      {/* Sidebars container (hidden on mobile if chat detail is open, occupies full width on mobile if open) */}
+      <div className={`flex-1 md:flex-none ${selectedUserId ? 'hidden md:block' : 'block'}`}>
+        {activeTab === 'chats' && <ChatSidebar currentUser={currentUser} users={usersForSidebar} selectedUserId={selectedUserId} onSelectUser={setSelectedUserId} onLogout={handleLogout} />}
+        {activeTab === 'contacts' && <ContactsSidebar onlineIds={onlineIds} onStartChat={(id) => { setSelectedUserId(id); setActiveTab('chats') }} onToast={showToast} />}
+        {activeTab === 'settings' && <SettingsPanel currentUser={currentUser} onProfileUpdate={(upd) => { setCurrentUser(prev => ({ ...prev, ...upd })); fetchContacts() }} onToast={showToast} />}
+      </div>
+
+      {/* Main Chatting Details Panel (hidden on mobile if no chat is selected) */}
+      <div className={`flex-col min-w-0 ${selectedUserId ? 'flex flex-1' : 'hidden md:flex md:flex-1'}`}>
+        <ChatHeader selectedUser={selectedUser} chatLoading={chatLoading} onClick={() => setDetailOpen(!detailOpen)} onBack={() => setSelectedUserId(null)} />
         {selectedUserId ? (
           <>
             <MessageList messages={messages} currentUserId={currentUser.userId} bottomRef={bottomRef} />

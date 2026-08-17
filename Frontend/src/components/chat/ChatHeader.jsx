@@ -1,15 +1,28 @@
+import { ChevronLeft } from 'lucide-react'
 import Avatar from '../ui/Avatar'
 
-export default function ChatHeader({ selectedUser, chatLoading, onClick }) {
+export default function ChatHeader({ selectedUser, chatLoading, onClick, onBack }) {
   return (
     <div
       onClick={selectedUser ? onClick : undefined}
       className={[
-        'flex items-center justify-between gap-4 border-b border-slate-200 bg-white/70 dark:bg-slate-950/70 dark:border-slate-800 px-6 py-4 backdrop-blur select-none',
+        'flex items-center justify-between gap-4 border-b border-slate-200 bg-white/70 dark:bg-slate-955/70 dark:border-slate-805 px-6 py-4 backdrop-blur select-none',
         selectedUser ? 'cursor-pointer hover:bg-slate-50/50 dark:hover:bg-slate-900/20 transition' : '',
       ].join(' ')}
     >
       <div className="flex items-center gap-3 min-w-0">
+        {selectedUser && onBack && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation() // Prevent triggering the header detail onClick
+              onBack()
+            }}
+            className="md:hidden p-1 mr-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition cursor-pointer rounded-lg hover:bg-slate-100 dark:hover:bg-slate-900 border-0 bg-transparent"
+            aria-label="Back to chat list"
+          >
+            <ChevronLeft size={22} />
+          </button>
+        )}
         {selectedUser && (
           <Avatar
             username={selectedUser.username}

@@ -60,7 +60,7 @@ export default function ContactsSidebar({ onlineIds, onStartChat, onToast }) {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-slate-955 w-[320px] shrink-0 border-l border-r border-slate-200 dark:border-slate-800 animate-fade-in relative select-none">
+    <div className="flex flex-col h-screen bg-white dark:bg-slate-955 w-full md:w-[320px] shrink-0 border-l border-r border-slate-200 dark:border-slate-800 animate-fade-in relative select-none">
       <div className="px-4 py-4 border-b border-slate-100 dark:border-slate-900 flex items-center justify-between">
         <h2 className="text-base font-bold text-slate-900 dark:text-slate-100">Contacts</h2>
         <button
