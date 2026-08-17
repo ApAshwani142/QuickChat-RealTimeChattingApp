@@ -1,11 +1,12 @@
 import 'dotenv/config'
 import dns from 'dns'
 
-// Override default DNS servers to solve 'querySrv ESERVFAIL' issues with MongoDB Atlas SRV records
+// Configure DNS settings: override servers and force IPv4 preference to avoid ENETUNREACH on IPv6-unsupported hosting environments like Render
 try {
   dns.setServers(['8.8.8.8', '1.1.1.1'])
+  dns.setDefaultResultOrder('ipv4first')
 } catch (err) {
-  console.warn('Failed to set custom DNS servers, using default DNS:', err.message)
+  console.warn('Failed to configure DNS settings:', err.message)
 }
 
 import http from 'http'
