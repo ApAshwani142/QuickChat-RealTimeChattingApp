@@ -1,10 +1,14 @@
-const mongoose = require('mongoose')
-const fs = require('fs')
-const path = require('path')
+import mongoose from 'mongoose'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const Message = require('../models/Message')
-const User = require('../models/User')
-const { emitReceiveMessageToParticipants, emitMessageUpdatedToParticipants, emitMessageDeletedToParticipants } = require('../socket')
+import Message from '../models/Message.js'
+import User from '../models/User.js'
+import { emitReceiveMessageToParticipants, emitMessageUpdatedToParticipants, emitMessageDeletedToParticipants } from '../socket/index.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 function toObjectId(id) {
   if (!id) return null
@@ -169,7 +173,7 @@ async function uploadMedia(req, res) {
   }
 }
 
-module.exports = {
+export {
   getMessages,
   postMessage,
   patchMessage,

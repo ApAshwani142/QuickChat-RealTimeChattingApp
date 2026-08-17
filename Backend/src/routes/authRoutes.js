@@ -1,5 +1,5 @@
-const express = require('express')
-const {
+import express from 'express'
+import {
   signup,
   login,
   sendSignupOtp,
@@ -10,8 +10,8 @@ const {
   disableMfa,
   getProfile,
   updateProfile,
-} = require('../controllers/authController')
-const requireAuth = require('../middleware/auth')
+} from '../controllers/authController.js'
+import requireAuth from '../middleware/auth.js'
 
 const router = express.Router()
 
@@ -28,4 +28,4 @@ router.post('/auth/mfa/setup', requireAuth, setupMfa)
 router.post('/auth/mfa/enable', requireAuth, enableMfa)
 router.post('/auth/mfa/disable', requireAuth, disableMfa)
 
-module.exports = router
+export default router

@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer')
+import nodemailer from 'nodemailer'
 
 let transporter = null
 
@@ -93,6 +93,6 @@ async function sendOtpEmail(email, otp) {
   }
 }
 
-module.exports = {
+export {
   sendOtpEmail,
 }

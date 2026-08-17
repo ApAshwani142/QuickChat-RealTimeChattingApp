@@ -1,6 +1,6 @@
-const express = require('express')
-const requireAuth = require('../middleware/auth')
-const { addContact, getContacts, updateContact, deleteContact } = require('../controllers/contactController')
+import express from 'express'
+import requireAuth from '../middleware/auth.js'
+import { addContact, getContacts, updateContact, deleteContact } from '../controllers/contactController.js'
 
 const router = express.Router()
 
@@ -9,4 +9,4 @@ router.post('/contacts', requireAuth, addContact)
 router.patch('/contacts/:contactId', requireAuth, updateContact)
 router.delete('/contacts/:contactId', requireAuth, deleteContact)
 
-module.exports = router
+export default router

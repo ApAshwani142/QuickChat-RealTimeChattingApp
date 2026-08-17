@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken')
+import jwt from 'jsonwebtoken'
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-jwt-tokens'
 
-function requireAuth(req, res, next) {
+export default function requireAuth(req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
 
@@ -20,5 +20,3 @@ function requireAuth(req, res, next) {
     return res.status(401).json({ error: 'Invalid or expired token' })
   }
 }
-
-module.exports = requireAuth

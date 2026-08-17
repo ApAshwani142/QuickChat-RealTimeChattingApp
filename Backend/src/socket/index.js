@@ -1,7 +1,7 @@
-const User = require('../models/User')
-const Message = require('../models/Message')
-const mongoose = require('mongoose')
-const jwt = require('jsonwebtoken')
+import User from '../models/User.js'
+import Message from '../models/Message.js'
+import mongoose from 'mongoose'
+import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-jwt-tokens'
 
@@ -241,7 +241,7 @@ function setupSocket(io) {
   })
 }
 
-module.exports = {
+export {
   setupSocket,
   emitReceiveMessageToParticipants,
   emitMessageUpdatedToParticipants,

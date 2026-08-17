@@ -1,12 +1,16 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const { generateSecret, generateURI, verify } = require('otplib')
-const qrcode = require('qrcode')
-const fs = require('fs')
-const path = require('path')
-const User = require('../models/User')
-const Otp = require('../models/Otp')
-const { sendOtpEmail } = require('../services/emailService')
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import { generateSecret, generateURI, verify } from 'otplib'
+import qrcode from 'qrcode'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import User from '../models/User.js'
+import Otp from '../models/Otp.js'
+import { sendOtpEmail } from '../services/emailService.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-jwt-tokens'
 
@@ -610,7 +614,7 @@ async function updateProfile(req, res) {
   }
 }
 
-module.exports = {
+export {
   signup,
   login,
   sendSignupOtp,

@@ -1,4 +1,4 @@
-const User = require('../models/User')
+import User from '../models/User.js'
 
 async function getUsers(req, res) {
   const currentUserId = req.userId
@@ -16,5 +16,5 @@ async function getUsers(req, res) {
   })
 }
 
-module.exports = { getUsers }
+export { getUsers }
 

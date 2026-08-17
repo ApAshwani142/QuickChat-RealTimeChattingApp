@@ -1,5 +1,5 @@
-require('dotenv').config()
-const dns = require('dns')
+import 'dotenv/config'
+import dns from 'dns'
 
 // Override default DNS servers to solve 'querySrv ESERVFAIL' issues with MongoDB Atlas SRV records
 try {
@@ -8,12 +8,12 @@ try {
   console.warn('Failed to set custom DNS servers, using default DNS:', err.message)
 }
 
-const http = require('http')
-const mongoose = require('mongoose')
-const { Server } = require('socket.io')
+import http from 'http'
+import mongoose from 'mongoose'
+import { Server } from 'socket.io'
 
-const createApp = require('./app')
-const { setupSocket } = require('./socket')
+import createApp from './app.js'
+import { setupSocket } from './socket/index.js'
 
 async function main() {
   const PORT = process.env.PORT || 5000

@@ -10,8 +10,18 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   env: {
-    VITE_API_URL: process.env.VITE_API_URL || 'http://localhost:5001',
-    VITE_SOCKET_URL: process.env.VITE_SOCKET_URL || 'http://localhost:5001',
+    VITE_API_URL: (() => {
+      let url = process.env.VITE_API_URL || 'http://localhost:5001'
+      if (url.endsWith('/')) url = url.slice(0, -1)
+      if (url.endsWith('/api')) url = url.slice(0, -4)
+      return url
+    })(),
+    VITE_SOCKET_URL: (() => {
+      let url = process.env.VITE_SOCKET_URL || 'http://localhost:5001'
+      if (url.endsWith('/')) url = url.slice(0, -1)
+      if (url.endsWith('/api')) url = url.slice(0, -4)
+      return url
+    })(),
   }
 }
 

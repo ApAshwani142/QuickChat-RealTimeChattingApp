@@ -1,8 +1,9 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs')
+import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 
-const User = require('../models/User')
-const Contact = require('../models/Contact')
+import User from '../models/User.js'
+import Contact from '../models/Contact.js'
+import Message from '../models/Message.js'
 
 function normalizeUsername(value) {
   if (typeof value !== 'string') return ''
@@ -83,7 +84,6 @@ async function getContacts(req, res) {
     .lean()
 
   // 2. Fetch all users from message history to show active conversation partners
-  const Message = require('../models/Message')
   const messages = await Message.find({
     $or: [
       { senderId: ownerId },
@@ -100,7 +100,6 @@ async function getContacts(req, res) {
   })
 
   // 3. Retrieve partner details
-  const User = require('../models/User')
   const conversationUsers = await User.find({ _id: { $in: Array.from(partnerIds) } })
     .select('_id username mobile email profileImage statusMessage socketId')
     .lean()
@@ -200,5 +199,5 @@ async function deleteContact(req, res) {
   return res.json({ ok: true })
 }
 
-module.exports = { addContact, getContacts, updateContact, deleteContact }
+export { addContact, getContacts, updateContact, deleteContact }
 

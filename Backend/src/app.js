@@ -1,12 +1,16 @@
-const express = require('express')
-const cors = require('cors')
-const path = require('path')
-const fs = require('fs')
+import express from 'express'
+import cors from 'cors'
+import path from 'path'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
 
-const authRoutes = require('./routes/authRoutes')
-const userRoutes = require('./routes/userRoutes')
-const messageRoutes = require('./routes/messageRoutes')
-const contactRoutes = require('./routes/contactRoutes')
+import authRoutes from './routes/authRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import messageRoutes from './routes/messageRoutes.js'
+import contactRoutes from './routes/contactRoutes.js'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, '../public/uploads')
@@ -43,4 +47,4 @@ function createApp() {
   return app
 }
 
-module.exports = createApp
+export default createApp
